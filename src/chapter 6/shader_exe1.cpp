@@ -1,12 +1,11 @@
-﻿#include <glad/glad.h>
+#include <glad/glad.h> //glfw보다 먼저 include되어야 한다. 
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <cmath>
 #include <shader.h>
 using namespace std;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+void framebuffer_size_callback(GLFWwindow* window, int width, int height); //framebuffer 크기 지정 콜백 함수 
+void processInput(GLFWwindow* window); //
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -14,105 +13,99 @@ const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
-    // glfw: 초기화 및 설정
+    // glfw: 초기화 및 설정 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-    // glfw 창 생성
+    // glfw window 생성
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "shader_exe1", NULL, NULL);
-    if (window == NULL)
+    if (window == NULL) //window 생성 실패 시 
     {
-        cout << "GLFW 창 생성 실패" << endl;
+        cout << "Failed to create GLFW window" << endl;
         glfwTerminate();
         return -1;
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    // glad: 모든 OpenGL 함수 포인터 로드
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    // glad: OpenGL 함수 포인터 불러오기 
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) //불러오는데 실패했다면 
     {
-        cout << "GLAD 초기화 실패" << endl;
+        cout << "Failed to initialize GLAD" << endl;
         return -1;
     }
 
-    // 셰이더 프로그램 빌드 및 컴파일
-    // 버텍스 셰이더
-    Shader ourshader("shader.vert", "shader.frag");
+    // shader program 빌드 및 컴파일
+    Shader ourshader("shader.vert","shader.frag");
 
-    // 버텍스 데이터 및 버퍼 구성 및 버텍스 속성 구성
+    // set up vertex data (and buffer(s)) and configure vertex attributes
+    // EBO
     float vertices[] = {
-        // vertex           // color
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    
+        -0.5f, -0.5f, 0.0f, // left
+         0.5f, -0.5f, 0.0f, // right
+         0.0f,  0.5f, 0.0f  // top
     };
 
-    unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    // 먼저 Vertex Array Object를 바인딩하고, 버텍스 버퍼를 바인딩하고 설정한 다음, 버텍스 속성을 구성
-    glBindVertexArray(VAO);
+    unsigned int VBO, VAO; // 정점 버퍼 객체, 정점 배열 객체 선언 
+    glGenVertexArrays(1, &VAO); //정점 배열 객체 생성
+    glGenBuffers(1, &VBO); //정점 버퍼 객체 생성
+    // 먼저 정점 배열 객체 바인드, 그리고 정점 버퍼 객체(들) 바인드, 마지막으로 정점 속성 환경설정
+    glBindVertexArray(VAO); // 정점 배열 객체 바인드 
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); // vertices 배열을 복사
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //버퍼데이터 
 
+    //OpenGL에게 vertex attributes를 어떻게 해석해야 할 지 알려줌 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0); //vertex attribute를 활성화 
 
-    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // 렌더 루프
+    glBindVertexArray(0);
+
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // render loop
     while (!glfwWindowShouldClose(window))
     {
-        // 입력 처리
+        // input
         processInput(window);
 
-        // 렌더링
+        // render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // 꼭 glUniform 호출 전에 셰이더를 활성화
+        // draw our first triangle
         ourshader.use();
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3); // (primitive유형지정, vertex array index지정 전달, vertex의 수를 지정)
+        // glBindVertexArray(0); 
 
-        // 셰이더 유니폼 업데이트
-        double timeValue = glfwGetTime();
-        float greenValue = static_cast<float>(sin(timeValue) / 2.0 + 0.5);
-        int vertexColorLocation = glGetUniformLocation(ourshader.ID, "ourColor");
-        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-
-        // 삼각형 렌더링
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        // glfw: 버퍼 교체 및 I/O 이벤트 폴링 (키 누름/떼기, 마우스 이동 등)
+        // glfw: swap buffers and poll I/O events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    // 선택 사항: 더 이상 필요하지 않은 모든 자원을 해제
-    //     glDeleteVertexArrays(1, &VAO);
+    // optional: de-allocate all resources once they've outlived their purpose:
+    glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(ourshader.ID);
 
-    // glfw: 모든 이전에 할당된 GLFW 자원을 정리하고 종료
+    // glfw: terminate, clearing all previously allocated GLFW resources.
     glfwTerminate();
     return 0;
 }
 
-// 모든 입력을 처리: 이 프레임에서 눌린/해제된 키를 쿼리하고 그에 따라 반응
+// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-// glfw: 창 크기가 변경될 때마다 (OS 또는 사용자 조절로) 호출되는 이 콜백 함수
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
