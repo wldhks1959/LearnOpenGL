@@ -1,7 +1,7 @@
 #include <glad/glad.h> //glfw보다 먼저 include되어야 한다. 
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include <shader.h>
+#include <iostream>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height); //framebuffer 크기 지정 콜백 함수 
@@ -37,8 +37,8 @@ int main()
         return -1;
     }
 
-    // shader program 빌드 및 컴파일
-    Shader ourshader("shader.vert","shader.frag");
+    Shader ourshader("default.vert", "default.frag");
+
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // EBO
@@ -49,8 +49,8 @@ int main()
     };
 
     unsigned int VBO, VAO; // 정점 버퍼 객체, 정점 배열 객체 선언 
-    glGenVertexArrays(1, &VAO); //정점 배열 객체 생성
-    glGenBuffers(1, &VBO); //정점 버퍼 객체 생성
+    glGenVertexArrays(1, &VAO); // 정점 배열 객체 생성
+    glGenBuffers(1, &VBO); // 정점 버퍼 객체 생성
     // 먼저 정점 배열 객체 바인드, 그리고 정점 버퍼 객체(들) 바인드, 마지막으로 정점 속성 환경설정
     glBindVertexArray(VAO); // 정점 배열 객체 바인드 
 
@@ -65,8 +65,6 @@ int main()
 
     glBindVertexArray(0);
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     // render loop
     while (!glfwWindowShouldClose(window))
     {
@@ -74,14 +72,13 @@ int main()
         processInput(window);
 
         // render
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(0.1f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // draw our first triangle
-        ourshader.use();
+        glUseProgram(ourshader.ID);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3); // (primitive유형지정, vertex array index지정 전달, vertex의 수를 지정)
-        // glBindVertexArray(0); 
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // glfw: swap buffers and poll I/O events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
