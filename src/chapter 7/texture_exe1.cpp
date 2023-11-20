@@ -93,8 +93,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
+    stbi_set_flip_vertically_on_load(true); 
+    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -114,7 +114,7 @@ int main()
     // set texture filtering params
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
+    data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -126,10 +126,10 @@ int main()
     }
     stbi_image_free(data);
 
-    // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
+    // tell opengl for each sampler to which texture unit
     ourshader.use();
-    glUniform1i(glGetUniformLocation(ourshader.ID, "texture1"), 0);
-    ourshader.setInt("texture2", 1);
+    glUniform1i(glGetUniformLocation(ourshader.ID, "ourTexture1"), 0);
+    ourshader.setInt("ourTexture2", 1);
 
     // render loop
     while (!glfwWindowShouldClose(window))
