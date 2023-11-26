@@ -86,8 +86,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true); // µÚÁı±â.
-    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
+    stbi_set_flip_vertically_on_load(true); // ë’¤ì§‘ê¸°.
+    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -109,7 +109,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
-    data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
+    data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -140,13 +140,13 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texture2);
 
 
-        glm::mat4 transform = glm::mat4(1.0f); // Ç×µî Çà·Ä ÃÊ±âÈ­ 
+        glm::mat4 transform = glm::mat4(1.0f); // í•­ë“± í–‰ë ¬ ì´ˆê¸°í™” 
         
-        // first container (ÀÌµ¿ ÈÄ È¸Àü)
+        // first container (ì´ë™ í›„ íšŒì „)
         transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
         transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 
-        // À¯´ÏÆû ÁÂÇ¥¸¦ ¾ò°í Çà·Ä ¼³Á¤ 
+        // ìœ ë‹ˆí¼ ì¢Œí‘œë¥¼ ì–»ê³  í–‰ë ¬ ì„¤ì • 
         unsigned int transformLoc = glGetUniformLocation(ourshader.ID, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
@@ -154,16 +154,13 @@ int main()
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        // second transformation (ÀÌµ¿ ÈÄ ½ºÄÉÀÏ¸µ)
-        transform = glm::mat4(1.0f); // Ç×µî Çà·Ä·Î ÃÊ±âÈ­
+        // second transformation (ì´ë™ í›„ ìŠ¤ì¼€ì¼ë§)
+        transform = glm::mat4(1.0f); // í•­ë“± í–‰ë ¬ë¡œ ì´ˆê¸°í™”
         transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
 
-        // static_cast´Â compile Å¸ÀÔ¿¡ Çüº¯È¯¿¡ ´ëÇÑ Å¸ÀÔ ¿À·ù¸¦ Àâ¾ÆÁØ´Ù. 
-        // arr -> pointer °¡´É, function -> function pointer °¡´É 
-        // pointer typeÀ» ´Ù¸¥ °ÍÀ¸·Î º¯È¯ÇÏ´Â °ÍÀ» Çã¿ë x 
-        float scaleAmount = static_cast<float>(sin(glfwGetTime())); // double -> floatÀ¸·Î Ä³½ºÆÃ 
+        float scaleAmount = (float)(sin(glfwGetTime());
         transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // Çà·Ä °ª ¹è¿­ÀÇ Ã¹ ¹øÂ° ¿ä¼Ò¸¦ ¸Ş¸ğ¸® Æ÷ÀÎÅÍ °ªÀ¸·Î 
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // í–‰ë ¬ ê°’ ë°°ì—´ì˜ ì²« ë²ˆì§¸ ìš”ì†Œë¥¼ ë©”ëª¨ë¦¬ í¬ì¸í„° ê°’ìœ¼ë¡œ 
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
