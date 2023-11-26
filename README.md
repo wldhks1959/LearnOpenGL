@@ -2,7 +2,8 @@
 
 "I am studying through the tutorials on LearnOpenGL."
 
-[LearnOpenGL]https://github.com/JoeyDeVries \n
+[LearnOpenGL]https://github.com/JoeyDeVries
+
 [Docs] https://learnopengl.com/
 
 # DOWNLOAD
