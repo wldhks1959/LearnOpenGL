@@ -5,7 +5,7 @@
 [LearnOpenGL]https://github.com/JoeyDeVries
 [Docs] https://learnopengl.com/
 
-#DOWNLOAD
+# DOWNLOAD
 [glm] : https://github.com/g-truc/glm
 
 [glad] : https://glad.dav1d.de/
