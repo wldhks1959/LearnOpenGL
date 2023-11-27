@@ -14,7 +14,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
-    // glfw: √ ±‚»≠ π◊ º≥¡§
+    // glfw: Ï¥àÍ∏∞Ìôî Î∞è ÏÑ§Ï†ï
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -24,38 +24,38 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    // glfw √¢ ª˝º∫
+    // glfw Ï∞Ω ÏÉùÏÑ±
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "shader_exe3", NULL, NULL);
     if (window == NULL)
     {
-        cout << "GLFW √¢ ª˝º∫ Ω«∆–" << endl;
+        cout << "GLFW Ï∞Ω ÏÉùÏÑ± Ïã§Ìå®" << endl;
         glfwTerminate();
         return -1;
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    // glad: ∏µÁ OpenGL «‘ºˆ ∆˜¿Œ≈Õ ∑ŒµÂ
+    // glad: Î™®Îì† OpenGL Ìï®Ïàò Ìè¨Ïù∏ÌÑ∞ Î°úÎìú
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        cout << "GLAD √ ±‚»≠ Ω«∆–" << endl;
+        cout << "GLAD Ï¥àÍ∏∞Ìôî Ïã§Ìå®" << endl;
         return -1;
     }
 
-    // ºŒ¿Ã¥ı «¡∑Œ±◊∑• ∫ÙµÂ π◊ ƒƒ∆ƒ¿œ
-    Shader ourshader("shader.vert", "shader.frag");
+    // ÏÖ∞Ïù¥Îçî ÌîÑÎ°úÍ∑∏Îû® ÎπåÎìú Î∞è Ïª¥ÌååÏùº
+    Shader ourshader("shader_exe3.vert", "shader_exe3.frag");
 
-    // πˆ≈ÿΩ∫ µ•¿Ã≈Õ π◊ πˆ∆€ ±∏º∫ π◊ πˆ≈ÿΩ∫ º”º∫ ±∏º∫
+    // Î≤ÑÌÖçÏä§ Îç∞Ïù¥ÌÑ∞ Î∞è Î≤ÑÌçº Íµ¨ÏÑ± Î∞è Î≤ÑÌÖçÏä§ ÏÜçÏÑ± Íµ¨ÏÑ±
     float vertices[] = {
-         0.5f, -0.5f, 0.0f,  // ø¿∏•¬  «œ¥‹ red
-        -0.5f, -0.5f, 0.0f,  // øﬁ¬  «œ¥‹ zero 
-         0.0f,  0.5f, 0.0f   // ¿ß  green 
+         0.5f, -0.5f, 0.0f,  // Ïò§Î•∏Ï™Ω ÌïòÎã® red
+        -0.5f, -0.5f, 0.0f,  // ÏôºÏ™Ω ÌïòÎã® zero 
+         0.0f,  0.5f, 0.0f   // ÏúÑ  green 
     };
 
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    // ∏’¿˙ Vertex Array Object∏¶ πŸ¿Œµ˘«œ∞Ì, πˆ≈ÿΩ∫ πˆ∆€∏¶ πŸ¿Œµ˘«œ∞Ì º≥¡§«— ¥Ÿ¿Ω, πˆ≈ÿΩ∫ º”º∫¿ª ±∏º∫
+    // Î®ºÏ†Ä Vertex Array ObjectÎ•º Î∞îÏù∏Îî©ÌïòÍ≥†, Î≤ÑÌÖçÏä§ Î≤ÑÌçºÎ•º Î∞îÏù∏Îî©ÌïòÍ≥† ÏÑ§Ï†ïÌïú Îã§Ïùå, Î≤ÑÌÖçÏä§ ÏÜçÏÑ±ÏùÑ Íµ¨ÏÑ±
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -66,45 +66,45 @@ int main()
 
     glBindVertexArray(VAO);
 
-    // ∑ª¥ı ∑Á«¡
+    // Î†åÎçî Î£®ÌîÑ
     while (!glfwWindowShouldClose(window))
     {
-        // ¿‘∑¬ √≥∏Æ
+        // ÏûÖÎ†• Ï≤òÎ¶¨
         processInput(window);
 
-        // ∑ª¥ı∏µ
+        // Î†åÎçîÎßÅ
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // ≤¿ glUniform »£√‚ ¿¸ø° ºŒ¿Ã¥ı∏¶ »∞º∫»≠
+        // Íº≠ glUniform Ìò∏Ï∂ú Ï†ÑÏóê ÏÖ∞Ïù¥ÎçîÎ•º ÌôúÏÑ±Ìôî
         ourshader.use();
 
-        // ªÔ∞¢«¸ ∑ª¥ı∏µ
+        // ÏÇºÍ∞ÅÌòï Î†åÎçîÎßÅ
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        // glfw: πˆ∆€ ±≥√º π◊ I/O ¿Ã∫•∆Æ ∆˙∏µ (≈∞ ¥©∏ß/∂º±‚, ∏∂øÏΩ∫ ¿Ãµø µÓ)
+        // glfw: Î≤ÑÌçº ÍµêÏ≤¥ Î∞è I/O Ïù¥Î≤§Ìä∏ Ìè¥ÎßÅ (ÌÇ§ ÎàÑÎ¶Ñ/ÎñºÍ∏∞, ÎßàÏö∞Ïä§ Ïù¥Îèô Îì±)
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    // ¥ı ¿ÃªÛ « ø‰«œ¡ˆ æ ¿∫ ∏µÁ ¿⁄ø¯¿ª «ÿ¡¶
+    // Îçî Ïù¥ÏÉÅ ÌïÑÏöîÌïòÏßÄ ÏïäÏùÄ Î™®Îì† ÏûêÏõêÏùÑ Ìï¥Ï†ú
     //     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(ourshader.ID);
 
-    // glfw: ∏µÁ ¿Ã¿¸ø° «“¥Áµ» GLFW ¿⁄ø¯¿ª ¡§∏Æ«œ∞Ì ¡æ∑·
+    // glfw: Î™®Îì† Ïù¥Ï†ÑÏóê Ìï†ÎãπÎêú GLFW ÏûêÏõêÏùÑ Ï†ïÎ¶¨ÌïòÍ≥† Ï¢ÖÎ£å
     glfwTerminate();
     return 0;
 }
 
-// ∏µÁ ¿‘∑¬¿ª √≥∏Æ: ¿Ã «¡∑π¿”ø°º≠ ¥≠∏∞/«ÿ¡¶µ» ≈∞∏¶ ƒı∏Æ«œ∞Ì ±◊ø° µ˚∂Û π›¿¿
+// Î™®Îì† ÏûÖÎ†•ÏùÑ Ï≤òÎ¶¨: Ïù¥ ÌîÑÎ†àÏûÑÏóêÏÑú ÎàåÎ¶∞/Ìï¥Ï†úÎêú ÌÇ§Î•º ÏøºÎ¶¨ÌïòÍ≥† Í∑∏Ïóê Îî∞Îùº Î∞òÏùë
 void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-// glfw: √¢ ≈©±‚∞° ∫Ø∞Êµ… ∂ß∏∂¥Ÿ (OS ∂«¥¬ ªÁøÎ¿⁄ ¡∂¿˝∑Œ) »£√‚µ«¥¬ ¿Ã ƒ›πÈ «‘ºˆ
+// glfw: Ï∞Ω ÌÅ¨Í∏∞Í∞Ä Î≥ÄÍ≤ΩÎê† ÎïåÎßàÎã§ (OS ÎòêÎäî ÏÇ¨Ïö©Ïûê Ï°∞Ï†àÎ°ú) Ìò∏Ï∂úÎêòÎäî Ïù¥ ÏΩúÎ∞± Ìï®Ïàò
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
