@@ -145,7 +145,7 @@ int main()
 
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
-    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
+    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -167,7 +167,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
+    data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -217,7 +217,7 @@ int main()
         for (unsigned int i = 0; i < 10; i++)
         {
 
-            glm::mat4 model = glm::mat4(1.0f); // Ç×µî Çà·Ä ÃÊ±âÈ­
+            glm::mat4 model = glm::mat4(1.0f); // í•­ë“± í–‰ë ¬ ì´ˆê¸°í™”
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
@@ -263,6 +263,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
     float xpos = (float)(xposIn);
     float ypos = (float)(yposIn);
 
+    // ë§ˆìš°ìŠ¤ì˜ ë§ˆì§€ë§‰ í”„ë ˆì„ ì´í›„ì˜ ì˜¤í”„ì…‹ì„ ê³„ì‚° 
     if (firstMouse)
     {
         lastX = xpos;
@@ -270,6 +271,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
         firstMouse = false;
     }
 
+    // ë§ˆì§€ë§‰ ë° í˜„ì¬ í”„ë ˆì„ ê°„ì˜ ì˜¤í”„ì…‹ ì´ë™ì„ ê³„ì‚° 
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos;
 
@@ -283,4 +285,3 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll((float)(yoffset));
 }
-
