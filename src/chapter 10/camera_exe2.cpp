@@ -146,7 +146,7 @@ int main()
 
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
-    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
+    unsigned char* data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\container.jpg", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -168,7 +168,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    data = stbi_load("C:\\Users\\SH10\\OneDrive - ë™ì•„ëŒ€í•™êµ\\ì„œì§€ì™„\\ë°”íƒ• í™”ë©´\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
+    data = stbi_load("C:\\Users\\SH10\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¼­Áö¿Ï\\¹ÙÅÁ È­¸é\\LearnOpenGL_src\\resource\\awesomeface.png", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -222,7 +222,7 @@ int main()
         for (unsigned int i = 0; i < 10; i++)
         {
 
-            glm::mat4 model = glm::mat4(1.0f); // í•­ë“± í–‰ë ¬ ì´ˆê¸°í™”
+            glm::mat4 model = glm::mat4(1.0f); // Ç×µî Çà·Ä ÃÊ±âÈ­
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             view = calculate_lookAt_matrix(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -292,24 +292,31 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 glm::mat4 calculate_lookAt_matrix(glm::vec3 position, glm::vec3 target, glm::vec3 worldUp)
 {
+    // 1. Position = known
+    // 2. Calculate cameraDirection
     glm::vec3 zaxis = glm::normalize(position - target);
+    // 3. Get positive right axis vector
     glm::vec3 xaxis = glm::normalize(glm::cross(glm::normalize(worldUp), zaxis));
+    // 4. Calculate camera up vector
     glm::vec3 yaxis = glm::cross(zaxis, xaxis);
 
-    glm::mat4 translation = glm::mat4(1.0f); 
-    translation[3][0] = -position.x; 
+    // Create translation and rotation matrix
+    // In glm we access elements as mat[col][row] due to column-major layout
+    glm::mat4 translation = glm::mat4(1.0f); // Identity matrix by default
+    translation[3][0] = -position.x; // Third column, first row
     translation[3][1] = -position.y;
     translation[3][2] = -position.z;
     glm::mat4 rotation = glm::mat4(1.0f);
-    rotation[0][0] = xaxis.x; 
+    rotation[0][0] = xaxis.x; // First column, first row
     rotation[1][0] = xaxis.y;
     rotation[2][0] = xaxis.z;
-    rotation[0][1] = yaxis.x; 
+    rotation[0][1] = yaxis.x; // First column, second row
     rotation[1][1] = yaxis.y;
     rotation[2][1] = yaxis.z;
-    rotation[0][2] = zaxis.x; 
+    rotation[0][2] = zaxis.x; // First column, third row
     rotation[1][2] = zaxis.y;
     rotation[2][2] = zaxis.z;
 
-    return rotation * translation; 
+    return rotation * translation; // Remember to read from right to left (first translation then rotation)
 }
+
