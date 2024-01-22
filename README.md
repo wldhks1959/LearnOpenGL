@@ -14,3 +14,7 @@
 [glfw] : https://www.glfw.org/download
 
 [stb_image] : https://github.com/nothings/stb/blob/master/stb_image.h
+
+[assimp] : https://github.com/assimp/assimp
+
+[Other header]  : https://github.com/JoeyDeVries/LearnOpenGL/tree/master/includes/learnopengl
